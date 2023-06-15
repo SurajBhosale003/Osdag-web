@@ -386,14 +386,14 @@ def generate_report(input_values: Dict[str, Any], metadata: Dict[str, Any], repo
                 profile[key] = metadata_profile[key]
     else: # Otherwise, stick to default metadata
         profile = metadata_profile
-    metadata_final = {"ProfileSummary": profile, "filename": file_path}
+    file_path = "file_storage/design_reports/" + report_id
+    metadata_final = {"ProfileSummary": profile, "filename": file_path, "does_design_exist": True, "logger_messages": ""}
     # Add other metadata
     for key in metadata_other.keys(): # Go through all metadata keys
         if key in metadata.keys(): # if key exists
             metadata_final[key] = metadata[key] # Use key
         else: # if not, use default value
             metadata_final[key] = metadata_other[key]
-    file_path = "file_storage/design_report/" + report_id
     module = create_from_input(input_values) # Create module from input
     module.save_design(metadata_final) # Create design report
     return file_path
